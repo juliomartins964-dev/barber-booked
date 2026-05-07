@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Calendar, Scissors, ListChecks, LogOut, Users, Clock } from "lucide-react";
+import { Calendar, Scissors, ListChecks, LogOut, Users, Clock, UserCog } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logo.png";
 
@@ -15,6 +15,7 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
     { to: "/barbeiro/agenda", icon: Calendar, label: "Hoje" },
     { to: "/barbeiro/atendimentos", icon: Users, label: "Atend." },
     { to: "/barbeiro/limites", icon: Clock, label: "Agenda" },
+    { to: "/barbeiro/equipe", icon: UserCog, label: "Equipe" },
   ];
   const nav = role === "barbeiro" ? barbeiroNav : clienteNav;
 

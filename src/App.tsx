@@ -21,6 +21,7 @@ import MeusAgendamentos from "./pages/cliente/MeusAgendamentos";
 import AgendaDia from "./pages/barbeiro/AgendaDia";
 import Atendimentos from "./pages/barbeiro/Atendimentos";
 import Limites from "./pages/barbeiro/Limites";
+import Equipe from "./pages/barbeiro/Equipe";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/barbeiro/agenda" element={<Barbeiro><AgendaDia /></Barbeiro>} />
             <Route path="/barbeiro/atendimentos" element={<Barbeiro><Atendimentos /></Barbeiro>} />
             <Route path="/barbeiro/limites" element={<Barbeiro><Limites /></Barbeiro>} />
+            <Route path="/barbeiro/equipe" element={<Barbeiro><Equipe /></Barbeiro>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
