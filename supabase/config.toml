@@ -1,1 +1,4 @@
 project_id = "pnzourooourkqeuandnj"
+
+[functions.manage-barbeiros]
+verify_jwt = true
