@@ -36,30 +36,47 @@ export default function Login() {
   };
 
   return (
-    <div className="mobile-shell flex flex-col items-center justify-center px-6 py-10 min-h-screen">
-      <img src={logo} alt="Logo" className="w-24 h-24 mb-4" />
-      <h1 className="font-display text-4xl gold-text mb-1">Barbearia</h1>
-      <p className="text-muted-foreground mb-10 text-sm">Estilo. Precisão. Tradição.</p>
+    <div
+      className="relative min-h-screen w-full flex items-center justify-center px-6 py-10 bg-background bg-no-repeat bg-center bg-contain"
+      style={{ backgroundImage: `url(${logo})` }}
+    >
+      {/* Overlay escuro para destacar o formulário sobre a logo */}
+      <div className="absolute inset-0 bg-background/75 backdrop-blur-sm" />
 
-      <form onSubmit={onSubmit} className="w-full space-y-4">
-        <div className="space-y-2">
-          <Label>Email</Label>
-          <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seu@email.com" required />
+      <div className="relative z-10 w-full max-w-sm">
+        <div className="flex flex-col items-center mb-8">
+          <img src={logo} alt="Barbearia Xandy" className="w-28 h-28 object-contain mb-3 drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]" />
+          <h1 className="font-display text-3xl gold-text">Barbearia Xandy</h1>
+          <p className="text-muted-foreground text-sm">Estilo. Precisão. Tradição.</p>
         </div>
-        <div className="space-y-2">
-          <Label>Senha</Label>
-          <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••" required />
-        </div>
-        <Button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-primary to-[hsl(var(--gold-glow))] text-primary-foreground font-semibold h-12">
-          {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
-          Entrar
-        </Button>
-      </form>
 
-      <p className="mt-6 text-sm text-muted-foreground">
-        Não tem conta?{" "}
-        <Link to="/cadastro" className="text-primary font-semibold">Criar conta</Link>
-      </p>
+        <form
+          onSubmit={onSubmit}
+          className="space-y-4 bg-card/70 backdrop-blur-xl border border-border rounded-2xl p-6 shadow-2xl"
+        >
+          <div className="space-y-2">
+            <Label>Email</Label>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="seu@email.com" required />
+          </div>
+          <div className="space-y-2">
+            <Label>Senha</Label>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••" required />
+          </div>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-transparent border border-primary/60 hover:bg-primary/10 text-foreground font-semibold h-12"
+          >
+            {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+            Entrar
+          </Button>
+
+          <p className="text-center text-sm text-muted-foreground pt-2">
+            Não tem conta?{" "}
+            <Link to="/cadastro" className="text-primary font-semibold">Criar conta</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }
