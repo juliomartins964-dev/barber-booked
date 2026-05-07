@@ -31,10 +31,11 @@ export const AppShell = ({ children }: { children: React.ReactNode }) => {
           </div>
           <button
             onClick={async () => { await signOut(); navigate("/login"); }}
-            className="p-2 rounded-lg hover:bg-secondary transition"
+            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-secondary transition text-sm font-medium"
             aria-label="Sair"
           >
-            <LogOut className="w-5 h-5 text-muted-foreground" />
+            <LogOut className="w-4 h-4 text-primary" />
+            <span>Sair</span>
           </button>
         </div>
       </header>

@@ -36,16 +36,17 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="relative min-h-screen w-full flex items-center justify-center px-6 py-10 bg-background bg-no-repeat bg-center bg-contain"
-      style={{ backgroundImage: `url(${logo})` }}
-    >
-      {/* Overlay escuro para destacar o formulário sobre a logo */}
-      <div className="absolute inset-0 bg-background/75 backdrop-blur-sm" />
+    <div className="relative min-h-screen w-full flex items-center justify-center px-6 py-10 bg-background overflow-hidden">
+      {/* Logo como marca d'água, sem overlay escuro */}
+      <img
+        src={logo}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
+      />
 
       <div className="relative z-10 w-full max-w-sm">
-        <div className="flex flex-col items-center mb-8">
-          <img src={logo} alt="Barbearia Xandy" className="w-28 h-28 object-contain mb-3 drop-shadow-[0_0_25px_rgba(255,255,255,0.15)]" />
+        <div className="flex flex-col items-center mb-6">
           <h1 className="font-display text-3xl gold-text">Barbearia Xandy</h1>
           <p className="text-muted-foreground text-sm">Estilo. Precisão. Tradição.</p>
         </div>
