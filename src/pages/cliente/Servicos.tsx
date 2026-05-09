@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { bookingStore } from "@/lib/booking";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Scissors, User, Sparkles, Eye, Clock } from "lucide-react";
-import logo from "@/assets/logo.png";
+import { Scissors, User, Sparkles, Eye, Footprints, ChevronRight } from "lucide-react";
 
 interface Servico {
   id: string; nome: string; duracao_minutos: number; preco: number;
@@ -13,6 +12,7 @@ interface Servico {
 const iconFor = (nome: string) => {
   const n = nome.toLowerCase();
   if (n.includes("sobranc")) return Eye;
+  if (n.includes("pezinho") || n.includes("pé")) return Footprints;
   if (n.includes("barba") && !n.includes("corte")) return User;
   if (n.includes("corte") && n.includes("barba")) return Sparkles;
   return Scissors;
@@ -23,7 +23,7 @@ export default function Servicos() {
   const [servicos, setServicos] = useState<Servico[] | null>(null);
 
   useEffect(() => {
-    supabase.from("servicos").select("*").eq("ativo", true).order("nome")
+    supabase.from("servicos").select("*").eq("ativo", true).order("preco")
       .then(({ data }) => setServicos(data ?? []));
   }, []);
 
@@ -37,20 +37,15 @@ export default function Servicos() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Logo banner em destaque */}
-      <div className="rounded-2xl border border-border bg-black flex items-center justify-center p-6">
-        <img src={logo} alt="Barbearia Xandy" className="w-full max-w-[260px] h-auto select-none" />
-      </div>
-
-      <div>
-        <h1 className="font-display text-2xl gold-text">Escolha o serviço</h1>
-        <p className="text-muted-foreground text-sm">Toque em um quadro para começar</p>
+    <div className="space-y-5">
+      <div className="text-center">
+        <h1 className="font-display text-2xl">Serviços</h1>
+        <p className="text-muted-foreground text-xs mt-1">Selecione o serviço desejado</p>
       </div>
 
       {!servicos && (
-        <div className="grid grid-cols-2 gap-3">
-          {[1,2,3,4].map(i => <Skeleton key={i} className="aspect-square rounded-2xl" />)}
+        <div className="space-y-3">
+          {[1,2,3,4,5].map(i => <Skeleton key={i} className="h-20 rounded-2xl" />)}
         </div>
       )}
 
@@ -60,21 +55,27 @@ export default function Servicos() {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-3">
         {servicos?.map((s) => {
           const Icon = iconFor(s.nome);
           return (
             <button
               key={s.id}
               onClick={() => pick(s)}
-              className="group relative aspect-square rounded-2xl border border-border bg-card hover:border-primary hover:bg-secondary transition flex flex-col items-center justify-center p-4 text-center"
+              className="w-full flex items-center gap-4 p-4 rounded-2xl border border-border bg-card hover:border-primary hover:bg-secondary/50 transition text-left"
             >
-              <Icon className="w-12 h-12 text-primary mb-3 group-hover:scale-110 transition-transform" strokeWidth={1.5} />
-              <p className="font-semibold text-sm leading-tight">{s.nome}</p>
-              <div className="flex items-center gap-2 text-[11px] text-muted-foreground mt-1.5">
-                <Clock className="w-3 h-3" />
-                <span>{s.duracao_minutos}min</span>
-                <span className="text-primary font-bold">R${Number(s.preco).toFixed(0)}</span>
+              <div className="w-12 h-12 rounded-xl border border-border bg-secondary/40 flex items-center justify-center shrink-0">
+                <Icon className="w-6 h-6 text-primary" strokeWidth={1.7} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-base leading-tight">{s.nome}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">{s.duracao_minutos} min</p>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="font-display text-lg text-primary">
+                  R$ {Number(s.preco).toFixed(2).replace(".", ",")}
+                </span>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
               </div>
             </button>
           );
