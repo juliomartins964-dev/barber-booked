@@ -88,13 +88,14 @@ export default function HorarioSelect() {
                 className="py-3 rounded-lg border border-border bg-card hover:border-primary hover:bg-primary/10 transition font-semibold"
               >
                 {s}
-            </button>
-          ))}
-          {slots.filter(s => !ocupados.has(s)).length === 0 && (
-            <p className="col-span-3 text-center text-muted-foreground py-8">Sem horários disponíveis.</p>
-          )}
-        </div>
-      )}
+              </button>
+            ))}
+            {available.length === 0 && (
+              <p className="col-span-3 text-center text-muted-foreground py-8">Sem horários disponíveis.</p>
+            )}
+          </div>
+        );
+      })()}
     </div>
   );
 }
