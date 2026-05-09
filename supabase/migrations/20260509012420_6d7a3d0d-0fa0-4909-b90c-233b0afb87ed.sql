@@ -1,0 +1,1 @@
+CREATE POLICY "Authenticated can view barbeiro roles" ON public.user_roles FOR SELECT TO authenticated USING (role = 'barbeiro'::app_role);
