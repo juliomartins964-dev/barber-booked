@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 interface Barbeiro {
   id: string;
