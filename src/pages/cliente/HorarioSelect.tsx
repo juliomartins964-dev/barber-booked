@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { bookingStore, useBooking } from "@/lib/booking";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format, parse } from "date-fns";
+import { format, parse, isToday } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 function buildSlots(start: string, end: string, dur: number): string[] {
