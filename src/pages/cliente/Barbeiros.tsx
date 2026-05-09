@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 interface Barbeiro {
   id: string;
@@ -22,7 +23,7 @@ export default function Barbeiros() {
   const booking = useBooking();
   const [list, setList] = useState<Barbeiro[] | null>(null);
   const today = new Date();
-  const dataStr = today.toISOString().slice(0, 10);
+  const dataStr = format(today, "yyyy-MM-dd");
   const dow = today.getDay();
 
   useEffect(() => {
