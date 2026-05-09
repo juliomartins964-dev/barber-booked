@@ -67,15 +67,27 @@ export default function HorarioSelect() {
         </div>
       )}
 
-      {slots && !limiteCheio && (
-        <div className="grid grid-cols-3 gap-2">
-          {slots.filter(s => !ocupados.has(s)).map(s => (
-            <button
-              key={s}
-              onClick={() => pick(s)}
-              className="py-3 rounded-lg border border-border bg-card hover:border-primary hover:bg-primary/10 transition font-semibold"
-            >
-              {s}
+      {slots && !limiteCheio && (() => {
+        const now = new Date();
+        const isHoje = dataObj ? isToday(dataObj) : false;
+        const nowMin = now.getHours() * 60 + now.getMinutes();
+        const available = slots.filter(s => {
+          if (ocupados.has(s)) return false;
+          if (isHoje) {
+            const [h, m] = s.split(":").map(Number);
+            if (h * 60 + m <= nowMin) return false;
+          }
+          return true;
+        });
+        return (
+          <div className="grid grid-cols-3 gap-2">
+            {available.map(s => (
+              <button
+                key={s}
+                onClick={() => pick(s)}
+                className="py-3 rounded-lg border border-border bg-card hover:border-primary hover:bg-primary/10 transition font-semibold"
+              >
+                {s}
             </button>
           ))}
           {slots.filter(s => !ocupados.has(s)).length === 0 && (
