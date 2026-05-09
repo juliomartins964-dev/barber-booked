@@ -5,7 +5,7 @@ import { bookingStore, useBooking } from "@/lib/booking";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight } from "lucide-react";
+import { Star } from "lucide-react";
 import { toast } from "sonner";
 
 interface Barbeiro {
@@ -59,48 +59,62 @@ export default function Barbeiros() {
     nav("/cliente/data");
   };
 
+  const preco = booking.servicoPreco ?? 0;
+
   return (
     <div className="space-y-5">
       <div>
         <p className="text-xs text-primary uppercase tracking-wider">2 de 4</p>
-        <h1 className="font-display text-3xl">Escolha o barbeiro</h1>
+        <h1 className="font-display text-3xl">Barbeiros disponíveis</h1>
         <p className="text-muted-foreground text-sm">{booking.servicoNome} · {booking.servicoDuracao}min</p>
       </div>
 
-      {!list && <div className="space-y-3">{[1,2,3].map(i => <Skeleton key={i} className="h-20 rounded-xl" />)}</div>}
+      {!list && <div className="space-y-3">{[1,2,3].map(i => <Skeleton key={i} className="h-24 rounded-2xl" />)}</div>}
       {list?.length === 0 && <div className="card-elegant p-6 text-center text-muted-foreground">Nenhum barbeiro cadastrado.</div>}
 
-      <div className="space-y-3">
+      <div className="space-y-4">
         {list?.map(b => {
           const closed = b.vagas === -1;
           const full = b.vagas === 0;
+          const disabled = closed || full;
           return (
-            <button
+            <div
               key={b.id}
-              onClick={() => pick(b)}
-              disabled={closed || full}
-              className={`w-full card-elegant p-4 flex items-center gap-4 transition ${
-                closed || full ? "opacity-60" : "hover:border-primary"
-              }`}
+              className={`card-elegant p-4 flex items-center gap-4 rounded-2xl ${disabled ? "opacity-60" : ""}`}
             >
-              <Avatar className="w-14 h-14 border border-border">
+              <Avatar className="w-16 h-16 border-2 border-primary/40">
                 <AvatarImage src={b.foto_url ?? undefined} />
-                <AvatarFallback className="bg-secondary text-primary font-display text-lg">
+                <AvatarFallback className="bg-secondary text-primary font-display text-xl">
                   {b.nome.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1 text-left">
-                <p className="font-semibold">{b.nome}</p>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-base truncate">{b.nome}</p>
+                <div className="flex items-center gap-1 mt-0.5">
+                  {[1,2,3,4,5].map(i => (
+                    <Star key={i} className="w-3 h-3 fill-primary text-primary" />
+                  ))}
+                  <span className="text-[10px] text-muted-foreground ml-1">5.0</span>
+                </div>
                 {closed ? (
-                  <Badge variant="outline" className="mt-1 text-muted-foreground">Fechado hoje</Badge>
+                  <Badge variant="outline" className="mt-1 text-muted-foreground text-[10px]">Fechado hoje</Badge>
                 ) : full ? (
-                  <Badge className="mt-1 bg-destructive text-destructive-foreground">LOTADO</Badge>
+                  <Badge className="mt-1 bg-destructive text-destructive-foreground text-[10px]">LOTADO</Badge>
                 ) : (
-                  <p className="text-xs text-primary font-semibold mt-1">{b.vagas} vagas restantes</p>
+                  <p className="text-[11px] text-primary font-medium mt-1">{b.vagas} vagas hoje</p>
                 )}
               </div>
-              {!closed && !full && <ChevronRight className="w-5 h-5 text-muted-foreground" />}
-            </button>
+              <div className="flex flex-col items-end gap-2">
+                <span className="font-display text-xl text-primary">R${preco}</span>
+                <button
+                  onClick={() => pick(b)}
+                  disabled={disabled}
+                  className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1.5 rounded-lg disabled:bg-muted disabled:text-muted-foreground"
+                >
+                  Agendar
+                </button>
+              </div>
+            </div>
           );
         })}
       </div>
