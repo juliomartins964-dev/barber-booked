@@ -23,7 +23,7 @@ export default function Barbeiros() {
   const booking = useBooking();
   const [list, setList] = useState<Barbeiro[] | null>(null);
   const today = new Date();
-  const dataStr = today.toISOString().slice(0, 10);
+  const dataStr = format(today, "yyyy-MM-dd");
   const dow = today.getDay();
 
   useEffect(() => {
